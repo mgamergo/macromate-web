@@ -26,12 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <Providers>
-      <html lang="en">
+      <html lang="en" className="h-full">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden`}
         >
-          <Navbar />
-          {children}
+          <div className="h-full flex flex-col">
+            <Navbar />
+            <main className="flex-1 overflow-hidden">
+              {children}
+            </main>
+          </div>
         </body>
       </html>
     </Providers>
