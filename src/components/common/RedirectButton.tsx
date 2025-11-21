@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
 interface ButtonProps {
-  titile: string;
+  title: string;
   redirectTo: string;
   className?: string;
   variant?:
@@ -17,14 +17,14 @@ interface ButtonProps {
 }
 
 const RedirectButton = ({
-  titile,
+  title,
   redirectTo,
   className,
   variant = "default",
 }: ButtonProps) => {
   return (
     <Button variant={variant} onClick={() => redirect(redirectTo)} className={className}>
-      {titile}
+      {title}
     </Button>
   );
 };

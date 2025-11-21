@@ -1,3 +1,4 @@
+import RedirectButton from '@/components/common/RedirectButton';
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation';
 
@@ -8,7 +9,10 @@ const StatsPage = async () => {
         redirect('/');
     }
   return (
-    <div>StatsPage</div>
+    <div className='flex flex-col items-start'>
+      StatsPage
+      <RedirectButton redirectTo="/" title="Go to Home" variant='secondary' />
+    </div>
   )
 }
 
