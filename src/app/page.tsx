@@ -5,14 +5,16 @@ import { SupplementList } from "@/components/dashboard/SupplementList";
 import { MealList } from "@/components/dashboard/MealList";
 import { WorkoutLog } from "@/components/dashboard/WorkoutLog";
 import { StepCount } from "@/components/dashboard/StepCount";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
   return (
     <div className="container mx-auto p-4 space-y-6 pb-20">
       <div className="flex flex-col space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-teal">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome back! Here's your daily overview.
+          Welcome back <span className="font-bold text-primary underline">{user?.firstName}!</span>
         </p>
       </div>
 
@@ -36,7 +38,7 @@ export default function Home() {
 
         {/* Right Column (Stats: Macros & Supplements) */}
         <div className="md:col-span-3 space-y-6">
-          <div className="h-[400px]">
+          <div className="h-fit">
             <MacroChart />
           </div>
           <SupplementList />

@@ -2,6 +2,7 @@ export const mockMacros = [
   { name: "Protein", value: 140, goal: 180, color: "var(--chart-1)" },
   { name: "Carbs", value: 200, goal: 250, color: "var(--chart-2)" },
   { name: "Fats", value: 55, goal: 70, color: "var(--chart-3)" },
+  { name: "Fiber", value: 30, goal: 35, color: "var(--chart-4)" },
 ];
 
 export const mockWeightData = [

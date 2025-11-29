@@ -12,11 +12,12 @@ export function MacroChart() {
     { name: "Protein", value: mockMacros[0].value, color: "var(--chart-1)" },
     { name: "Carbs", value: mockMacros[1].value, color: "var(--chart-2)" },
     { name: "Fats", value: mockMacros[2].value, color: "var(--chart-3)" },
+    { name: "Fiber", value: mockMacros[3]?.value ?? 0, color: "var(--chart-4)" },
     { name: "Remaining", value: Math.max(0, goalCalories - totalCalories), color: "var(--muted)" },
   ];
 
   return (
-    <Card className="h-full border-teal/20 shadow-lg shadow-teal/5">
+    <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
       <CardHeader>
         <CardTitle className="text-teal font-bold">Daily Macros</CardTitle>
       </CardHeader>
@@ -49,7 +50,7 @@ export function MacroChart() {
           <span className="text-xs text-muted-foreground">/ {goalCalories} kcal</span>
         </div>
       </CardContent>
-      <div className="flex justify-around p-4 text-sm">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-4 justify-around p-4 text-sm">
         {mockMacros.map((macro) => (
           <div key={macro.name} className="flex flex-col items-center">
             <span className="font-medium text-muted-foreground">{macro.name}</span>

@@ -5,14 +5,17 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center p-4 gap-4 h-16 border-b bg-backgroundw">
-      <h1 className="text-3xl font-bold"><span className="text-teal">M</span>acromate</h1>
+      <div className="flex flex-row items-center gap-3">
+        <h1 className="text-3xl font-bold"><span className="text-teal">M</span>acromate</h1>
+      </div>
       <div className="flex items-center gap-3">
         <SignedOut>
           <ThemeToggle />
