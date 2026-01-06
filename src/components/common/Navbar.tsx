@@ -5,9 +5,9 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { ThemeToggle } from "@/components/common/ThemeToggle";
+import { ThemeToggle } from "@/src/components/common/ThemeToggle";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
 
 export const Navbar = () => {

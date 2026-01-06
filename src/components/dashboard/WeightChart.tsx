@@ -1,8 +1,8 @@
 "use client";
 
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockWeightData } from "@/lib/mockData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { mockWeightData } from "@/src/lib/mockData";
 
 export function WeightChart() {
   return (

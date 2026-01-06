@@ -1,4 +1,4 @@
-import { Authentication } from "@/components/auth/Authentication";
+import { Authentication } from "@/src/components/auth/Authentication";
 
 export default function AuthPage() {
   return (

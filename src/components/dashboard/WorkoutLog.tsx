@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockWorkout } from "@/lib/mockData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { mockWorkout } from "@/src/lib/mockData";
 import { Dumbbell } from "lucide-react";
 
 export function WorkoutLog() {

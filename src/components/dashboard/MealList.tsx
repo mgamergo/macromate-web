@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockMeals } from "@/lib/mockData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { mockMeals } from "@/src/lib/mockData";
 import { Clock } from "lucide-react";
 
 export function MealList() {

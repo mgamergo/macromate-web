@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockSteps } from "@/lib/mockData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { mockSteps } from "@/src/lib/mockData";
 import { Footprints } from "lucide-react";
-import { StepsPopupModal } from "@/components/common/StepsPopupModal";
+import { StepsPopupModal } from "@/src/components/common/StepsPopupModal";
 
 export function StepCount() {
   const percentage = Math.min(100, (mockSteps.current / mockSteps.goal) * 100);

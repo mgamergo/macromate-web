@@ -1,9 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { mockSupplements } from "@/lib/mockData";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { Checkbox } from "@/src/components/ui/checkbox";
+import { mockSupplements } from "@/src/lib/mockData";
+import { Badge } from "@/src/components/ui/badge";
 
 export function SupplementList() {
   return (

@@ -1,10 +1,10 @@
-import { MacroChart } from "@/components/dashboard/MacroChart";
-import { WeightChart } from "@/components/dashboard/WeightChart";
-import { QuickActions } from "@/components/dashboard/QuickActions";
-import { SupplementList } from "@/components/dashboard/SupplementList";
-import { MealList } from "@/components/dashboard/MealList";
-import { WorkoutLog } from "@/components/dashboard/WorkoutLog";
-import { StepCount } from "@/components/dashboard/StepCount";
+import { MacroChart } from "@/src/components/dashboard/MacroChart";
+import { WeightChart } from "@/src/components/dashboard/WeightChart";
+import { QuickActions } from "@/src/components/dashboard/QuickActions";
+import { SupplementList } from "@/src/components/dashboard/SupplementList";
+import { MealList } from "@/src/components/dashboard/MealList";
+import { WorkoutLog } from "@/src/components/dashboard/WorkoutLog";
+import { StepCount } from "@/src/components/dashboard/StepCount";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {

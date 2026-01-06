@@ -1,8 +1,8 @@
 "use client";
 
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockMacros, mockMeals } from "@/lib/mockData";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { mockMacros, mockMeals } from "@/src/lib/mockData";
 
 export function MacroChart() {
   const totalCalories = mockMeals.reduce((acc, meal) => acc + meal.calories, 0);
