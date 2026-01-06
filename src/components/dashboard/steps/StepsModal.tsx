@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,10 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 
+import { api } from "@/convex/_generated/api";
+import { useQuery, useMutation } from "convex/react";
+import { useAuth } from "@clerk/nextjs";
+
 interface StepsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -18,23 +22,47 @@ interface StepsModalProps {
 }
 
 export function StepsModal({ isOpen, onClose, onSubmit }: StepsModalProps) {
+  // State for step count input and error message
   const [stepCount, setStepCount] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  //Get user details from Clerk
+  const { userId, isLoaded } = useAuth();
+
+  // Get the convex user Id based on clerk ID
+  const convexUser = useQuery(
+    api.users.getUserByClerkId,
+    isLoaded && userId ? { clerkUserId: userId } : "skip"
+  );
+
+  // Get the mutation to POST the steps data
+  const addSteps = useMutation(api.steps.addSteps);
+
+  // Null checks for clerk and convex 
+  if (!isLoaded || !userId) return null;
+  if (!convexUser) return null;
+
+  const handleSubmit = async () => {
+    if (!isLoaded || !userId) return null;
+
     const steps = parseInt(stepCount, 10);
 
+    // Input Validations
     if (!stepCount.trim()) {
       setError("Please enter a step count");
       return;
     }
-
     if (isNaN(steps) || steps <= 0) {
       setError("Please enter a valid positive number");
       return;
     }
 
-    onSubmit(steps);
+    // Log steps to convex
+    await addSteps({
+      userId: convexUser._id,
+      steps,
+    });
+
     setStepCount("");
     setError("");
     onClose();
