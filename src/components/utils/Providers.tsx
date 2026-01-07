@@ -7,6 +7,7 @@ import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useAuth } from "@clerk/nextjs";
 import { UserSyncProvider } from "@/src/components/auth/UserSyncProvider";
+import { SetZustandState } from "../common/SetZustandState";
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -15,7 +16,10 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider>
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <ThemeProvider>
-          <UserSyncProvider>{children}</UserSyncProvider>
+          <UserSyncProvider>
+            <SetZustandState />
+            {children}
+          </UserSyncProvider>
         </ThemeProvider>
       </ConvexProviderWithClerk>
     </ClerkProvider>
