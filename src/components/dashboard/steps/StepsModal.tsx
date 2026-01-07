@@ -14,14 +14,14 @@ import { Label } from "@/src/components/ui/label";
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import { useAuth } from "@clerk/nextjs";
+import useZustand from "@/src/hooks/use-zustand";
 
 interface StepsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (steps: number) => void;
 }
 
-export function StepsModal({ isOpen, onClose, onSubmit }: StepsModalProps) {
+export function StepsModal({ isOpen, onClose }: StepsModalProps) {
   // State for step count input and error message
   const [stepCount, setStepCount] = useState("");
   const [error, setError] = useState("");
@@ -30,17 +30,14 @@ export function StepsModal({ isOpen, onClose, onSubmit }: StepsModalProps) {
   const { userId, isLoaded } = useAuth();
 
   // Get the convex user Id based on clerk ID
-  const convexUser = useQuery(
-    api.users.getUserByClerkId,
-    isLoaded && userId ? { clerkUserId: userId } : "skip"
-  );
+  const {convexUserId} = useZustand();
 
   // Get the mutation to POST the steps data
   const addSteps = useMutation(api.steps.addSteps);
 
   // Null checks for clerk and convex 
   if (!isLoaded || !userId) return null;
-  if (!convexUser) return null;
+  if (!convexUserId) return null;
 
   const handleSubmit = async () => {
     if (!isLoaded || !userId) return null;
@@ -59,7 +56,7 @@ export function StepsModal({ isOpen, onClose, onSubmit }: StepsModalProps) {
 
     // Log steps to convex
     await addSteps({
-      userId: convexUser._id,
+      userId: convexUserId,
       steps,
     });
 

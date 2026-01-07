@@ -5,14 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/ca
 import { Button } from "@/src/components/ui/button";
 import { Plus, Dumbbell, GlassWater, FootprintsIcon } from "lucide-react";
 import { StepsModal } from "@/src/components/dashboard/steps/StepsModal";
+import { MealModal, type MealFormData } from "@/src/components/dashboard/meals/MealModal";
 
 export function QuickActions() {
+  const [mealModalOpen, setMealModalOpen] = useState(false);
   const [stepsModalOpen, setStepsModalOpen] = useState(false);
-
-  const handleStepsSubmit = (steps: number) => {
-    console.log("Logged steps:", steps);
-    // TODO: Add API call to log steps to database
-  };
 
   return (
     <>
@@ -21,7 +18,11 @@ export function QuickActions() {
           <CardTitle className="text-teal font-bold">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
-          <Button className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" variant="outline">
+          <Button 
+            onClick={() => setMealModalOpen(true)}
+            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" 
+            variant="outline"
+          >
             <Plus className="h-6 w-6" />
             <span>Log Meal</span>
           </Button>
@@ -43,10 +44,13 @@ export function QuickActions() {
           </Button>
         </CardContent>
       </Card>
+      <MealModal
+        isOpen={mealModalOpen}
+        onClose={() => setMealModalOpen(false)}
+      />
       <StepsModal
         isOpen={stepsModalOpen}
         onClose={() => setStepsModalOpen(false)}
-        onSubmit={handleStepsSubmit}
       />
     </>
   );

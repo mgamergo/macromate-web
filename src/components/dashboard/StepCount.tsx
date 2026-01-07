@@ -10,26 +10,27 @@ import { mockSteps } from "@/src/lib/mockData";
 import { Footprints } from "lucide-react";
 import { StepsPopupModal } from "@/src/components/common/StepsPopupModal";
 import { useQuery } from "convex/react";
-import { getStartAndEndOfDay } from "@/src/lib/utils/stepCount";
+import { getStartAndEndOfDay } from "@/src/lib/utils";
 import { api } from "@/convex/_generated/api";
 import useZustand from "@/src/hooks/use-zustand";
 
 export function StepCount() {
-  const percentage = Math.min(100, (mockSteps.current / mockSteps.goal) * 100);
-
+  
   const { startOfToday, endOfToday } = getStartAndEndOfDay(new Date());
-
+  
   const { convexUserId } = useZustand();
-  const getStepsQuery = useQuery(
+  const getSteps = useQuery(
     api.steps.getStepsByDay,
     convexUserId
-      ? {
-          userId: convexUserId,
-          from: startOfToday,
-          to: endOfToday,
-        }
-      : "skip"
+    ? {
+      userId: convexUserId,
+      from: startOfToday,
+      to: endOfToday,
+    }
+    : "skip"
   );
+  const todaysSteps = getSteps? getSteps.reduce((acc, entry) => acc + entry.stepCount, 0) : 0
+  const percentage = Math.min(100, (todaysSteps / mockSteps.goal) * 100);
 
   return (
     <StepsPopupModal>
@@ -42,7 +43,7 @@ export function StepCount() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {getStepsQuery? getStepsQuery.reduce((acc, entry) => acc + entry.stepCount, 0).toLocaleString() : 0 }
+            {todaysSteps.toLocaleString()}
           </div>
           <p className="text-xs text-muted-foreground">
             / {mockSteps.goal.toLocaleString()} goal
