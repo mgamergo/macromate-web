@@ -29,11 +29,11 @@ export default async function Home() {
 
         {/* Center Column (Feed: Weight, Meals, Workout) */}
         <div className="md:col-span-6 space-y-6">
+          <MealList />
+          <WorkoutLog />
           <div className="h-[350px]">
             <WeightChart />
           </div>
-          <MealList />
-          <WorkoutLog />
         </div>
 
         {/* Right Column (Stats: Macros & Supplements) */}

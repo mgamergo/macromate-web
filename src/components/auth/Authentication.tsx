@@ -2,10 +2,9 @@
 
 import { useSignIn } from "@clerk/nextjs";
 import { OAuthStrategy } from "@clerk/types";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
 import { useState } from "react";
-import { Separator } from "@/components/ui/separator";
 
 export const Authentication = () => {
   const { signIn } = useSignIn();

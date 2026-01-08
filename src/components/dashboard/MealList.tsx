@@ -1,14 +1,23 @@
 "use client";
 
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
 import useZustand from "@/src/hooks/use-zustand";
-import { Clock } from "lucide-react";
+import { Clock, Pencil, Trash2 } from "lucide-react";
 import { formatTime } from "@/src/lib/utils";
 
 import { Id } from "@/convex/_generated/dataModel";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { getStartAndEndOfDay } from "@/src/lib/utils";
+import Modal from "../common/Modal";
+import { useState } from "react";
+import { MEAL_LIST_CONSTANTS } from "@/src/lib/constants";
 
 export interface Meal {
   _id: Id<"meals">;
@@ -26,6 +35,8 @@ export interface Meal {
 
 export function MealList() {
   const { convexUserId } = useZustand();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<Id<"meals"> | null>();
 
   const { startOfToday, endOfToday } = getStartAndEndOfDay(new Date());
 
@@ -41,7 +52,19 @@ export function MealList() {
         : "skip"
     ) ?? [];
 
+  const deleteMealMutation = useMutation(api.meals.deleteMeal);
+
   if (!convexUserId) return null;
+
+  const onDelelteMealClick = (id: Id<"meals">) => {
+    setDeleteId(id);
+    setModalOpen(true);
+  };
+
+  const onDeleteClickInsideModal = () => {
+    deleteMealMutation({ mealId: deleteId! });
+    setModalOpen(false);
+  };
 
   return (
     <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
@@ -66,15 +89,44 @@ export function MealList() {
                   <span>{formatTime(meal._creationTime)}</span>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="font-bold text-teal">{meal.calories} kcal</p>
-                <p className="text-xs text-muted-foreground">
-                  P:{meal.protein} C:{meal.carbs} F:{meal.fats}
-                </p>
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="font-bold text-teal">{meal.calories} kcal</p>
+                  <p className="text-xs text-muted-foreground">
+                    P:{meal.protein} C:{meal.carbs} F:{meal.fats}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    className="hover:bg-teal/10"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="icon-sm"
+                    className="hover:bg-destructive/10"
+                    onClick={() => onDelelteMealClick(meal._id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           ))
         )}
+        <Modal
+          open={modalOpen}
+          onOpenChange={() => setModalOpen(false)}
+          text={MEAL_LIST_CONSTANTS.deleteModalText}
+          primaryButtonText="Delete"
+          primaryVariant="destructive"
+          onPrimary={onDeleteClickInsideModal}
+          key={deleteId}
+          title={MEAL_LIST_CONSTANTS.deleteModalTitle}
+        />
       </CardContent>
     </Card>
   );

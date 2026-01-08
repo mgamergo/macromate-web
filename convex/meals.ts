@@ -48,3 +48,39 @@ export const getMealsByDates = query({
       ).collect();
   },
 });
+
+export const deleteMeal = mutation({
+  args: {
+    mealId: v.id("meals"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.mealId);
+  }
+})
+
+export const editMeal = mutation({
+  args: {
+    mealId: v.id("meals"),
+    name: v.string(),
+    calories: v.number(),
+    protein: v.number(),
+    carbs: v.number(),
+    fats: v.number(),
+    type: v.union(
+      v.literal("breakfast"),
+      v.literal("lunch"),
+      v.literal("dinner"),
+      v.literal("snack")
+    ),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.mealId, {
+      name: args.name,
+      calories: args.calories,
+      protein: args.protein,
+      carbs: args.carbs,
+      fats: args.fats,
+      type: args.type,
+    })
+  }
+})

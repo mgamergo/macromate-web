@@ -1,4 +1,4 @@
-import RedirectButton from '@/components/common/RedirectButton';
+import RedirectButton from '@/src/components/common/RedirectButton';
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation';
 
