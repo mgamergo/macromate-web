@@ -18,6 +18,7 @@ import { getStartAndEndOfDay } from "@/src/lib/utils";
 import Modal from "../common/Modal";
 import { useState } from "react";
 import { MEAL_LIST_CONSTANTS } from "@/src/lib/constants";
+import { MealModal } from "./meals/MealModal";
 
 export interface Meal {
   _id: Id<"meals">;
@@ -37,6 +38,8 @@ export function MealList() {
   const { convexUserId } = useZustand();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<Id<"meals"> | null>();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editMeal, setEditMeal] = useState<Meal | undefined>();
 
   const { startOfToday, endOfToday } = getStartAndEndOfDay(new Date());
 
@@ -65,6 +68,11 @@ export function MealList() {
     deleteMealMutation({ mealId: deleteId! });
     setModalOpen(false);
   };
+
+  const onEditMealClick = (meal: Meal) => {
+    setEditMeal(meal);
+    setIsEditModalOpen(true);
+  }
 
   return (
     <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
@@ -101,6 +109,7 @@ export function MealList() {
                     variant="outline"
                     size="icon-sm"
                     className="hover:bg-teal/10"
+                    onClick={() => onEditMealClick(meal)}
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
@@ -126,6 +135,12 @@ export function MealList() {
           onPrimary={onDeleteClickInsideModal}
           key={deleteId}
           title={MEAL_LIST_CONSTANTS.deleteModalTitle}
+        />
+
+        <MealModal 
+          isOpen = {isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          mealData={editMeal}
         />
       </CardContent>
     </Card>

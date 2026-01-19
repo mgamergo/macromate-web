@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,10 +20,12 @@ import {
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import useZustand from "@/src/hooks/use-zustand";
+import { Meal } from "../MealList";
 
 interface MealModalProps {
   isOpen: boolean;
   onClose: () => void;
+  mealData?: Meal
 }
 
 export interface MealFormData {
@@ -44,7 +46,7 @@ type InternalMealForm = {
   type: "breakfast" | "lunch" | "dinner" | "snack";
 };
 
-export function MealModal({ isOpen, onClose }: MealModalProps) {
+export function MealModal({ isOpen, onClose, mealData }: MealModalProps) {
   const [formData, setFormData] = useState<InternalMealForm>({
     name: "",
     calories: "",
@@ -160,6 +162,23 @@ export function MealModal({ isOpen, onClose }: MealModalProps) {
       }));
     }
   };
+  
+  const setInitialMealData = () => {
+    if (mealData) {
+      setFormData({
+        name: mealData.name,
+        calories: mealData.calories.toString(),
+        protein: mealData.protein.toString(),
+        carbs: mealData.carbs.toString(),
+        fats: mealData.fats.toString(),
+        type: mealData.type,
+      })
+    }
+  }
+
+  useEffect(() => {
+    setInitialMealData()
+  }, [mealData])
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>

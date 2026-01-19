@@ -6,6 +6,7 @@ import { MealList } from "@/src/components/dashboard/MealList";
 import { WorkoutLog } from "@/src/components/dashboard/WorkoutLog";
 import { StepCount } from "@/src/components/dashboard/StepCount";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const user = await currentUser();
