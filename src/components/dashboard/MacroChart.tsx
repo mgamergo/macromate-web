@@ -3,10 +3,48 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { mockMacros, mockMeals } from "@/src/lib/mockData";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import useZustand from "@/src/hooks/use-zustand";
+import { getStartAndEndOfDay } from "@/src/lib/utils";
+
+type Meal = {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+};
 
 export function MacroChart() {
   const totalCalories = mockMeals.reduce((acc, meal) => acc + meal.calories, 0);
   const goalCalories = 2500;
+  const { convexUserId } = useZustand();
+  const { startOfToday, endOfToday } = getStartAndEndOfDay(new Date());
+
+  const meals = useQuery(
+    api.meals.getMealsByDates,
+    convexUserId ?{
+      userId: convexUserId,
+      from: startOfToday,
+      to: endOfToday,
+    } : "skip"
+  ) ?? [];
+
+  const totals = meals.reduce(
+    (acc, meal) => {
+      acc.calories += meal.calories;
+      acc.protein += meal.protein;
+      acc.carbs+= meal.carbs;
+      acc.fats += meal.fats;
+      return acc;
+    },
+    {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fats: 0,
+    } as Meal
+  );
 
   const data = [
     { name: "Protein", value: mockMacros[0].value, color: "var(--chart-1)" },
