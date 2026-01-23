@@ -141,6 +141,7 @@ export function MealList() {
           isOpen = {isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           mealData={editMeal}
+          isEditMode={true}
         />
       </CardContent>
     </Card>

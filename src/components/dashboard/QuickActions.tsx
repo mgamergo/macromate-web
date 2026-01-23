@@ -47,6 +47,7 @@ export function QuickActions() {
       <MealModal
         isOpen={mealModalOpen}
         onClose={() => setMealModalOpen(false)}
+        isEditMode={false}
       />
       <StepsModal
         isOpen={stepsModalOpen}

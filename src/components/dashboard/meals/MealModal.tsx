@@ -25,7 +25,8 @@ import { Meal } from "../MealList";
 interface MealModalProps {
   isOpen: boolean;
   onClose: () => void;
-  mealData?: Meal
+  mealData?: Meal;
+  isEditMode: boolean;
 }
 
 export interface MealFormData {
@@ -46,7 +47,7 @@ type InternalMealForm = {
   type: "breakfast" | "lunch" | "dinner" | "snack";
 };
 
-export function MealModal({ isOpen, onClose, mealData }: MealModalProps) {
+export function MealModal({ isOpen, onClose, mealData, isEditMode }: MealModalProps) {
   const [formData, setFormData] = useState<InternalMealForm>({
     name: "",
     calories: "",
@@ -59,6 +60,7 @@ export function MealModal({ isOpen, onClose, mealData }: MealModalProps) {
 
   const { convexUserId } = useZustand();
   const logMealMutation = useMutation(api.meals.logMeal);
+  const editMealMutation = useMutation(api.meals.editMeal);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -111,7 +113,7 @@ export function MealModal({ isOpen, onClose, mealData }: MealModalProps) {
     if (validateForm()) {
       if (!convexUserId) return null;
       // convert string fields to numbers (empty => 0)
-      const payload = {
+      const logPayload = {
         userId: convexUserId,
         name: formData.name,
         calories: formData.calories.trim() ? parseInt(formData.calories, 10) : 0,
@@ -121,7 +123,24 @@ export function MealModal({ isOpen, onClose, mealData }: MealModalProps) {
         type: formData.type,
       };
 
-      await logMealMutation(payload);
+      const editPayload = {
+        mealId: mealData?._id!,
+        name: formData.name,
+        calories: formData.calories.trim() ? parseInt(formData.calories, 10) : 0,
+        protein: formData.protein.trim() ? parseInt(formData.protein, 10) : 0,
+        carbs: formData.carbs.trim() ? parseInt(formData.carbs, 10) : 0,
+        fats: formData.fats.trim() ? parseInt(formData.fats, 10) : 0,
+        type: formData.type,
+      }
+
+      if (isEditMode && mealData) {
+        await editMealMutation({
+          ...editPayload,
+          mealId: mealData._id,
+        });
+      } else {
+        await logMealMutation(logPayload);
+      }
 
       resetForm();
       onClose();
