@@ -43,3 +43,24 @@ export const getUserByClerkId = query({
       .first();
   },
 });
+
+export const markUserOnboarded = mutation({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.userId, {
+      isOnboarded: true,
+    });
+  },
+});
+
+export const isUserOnboarded = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.userId);
+    return user?.isOnboarded || false;
+  },
+});
