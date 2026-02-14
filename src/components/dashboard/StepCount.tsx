@@ -8,7 +8,7 @@ import {
 } from "@/src/components/ui/card";
 import { mockSteps } from "@/src/lib/mockData";
 import { Footprints } from "lucide-react";
-import { StepsPopupModal } from "@/src/components/common/StepsPopupModal";
+import { StepsPopupModal } from "@/src/components/dashboard/steps/StepsPopupModal";
 import { useQuery } from "convex/react";
 import { getStartAndEndOfDay } from "@/src/lib/utils";
 import { api } from "@/convex/_generated/api";

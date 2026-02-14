@@ -1,10 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
+import { Button } from "@/src/components/ui/button";
+import { Icon, LucideIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ButtonProps {
-  title: string;
+  title?: string;
+  Icon?: LucideIcon;
+  IconHeight?: number;
+  IconWidth?: number;
   redirectTo: string;
   className?: string;
   variant?:
@@ -18,12 +22,17 @@ interface ButtonProps {
 
 const RedirectButton = ({
   title,
+  Icon,
+  IconHeight = 16,
+  IconWidth = 16,
   redirectTo,
   className,
   variant = "default",
 }: ButtonProps) => {
+  const router = useRouter();
   return (
-    <Button variant={variant} onClick={() => redirect(redirectTo)} className={className}>
+    <Button variant={variant} onClick={() => router.push(redirectTo)} className={className}>
+      {Icon && <Icon className={`h-${IconHeight} w-${IconWidth}`} />}
       {title}
     </Button>
   );

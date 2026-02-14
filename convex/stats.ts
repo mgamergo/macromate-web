@@ -126,7 +126,6 @@ export const logOrUpdateTargets = mutation({
 export const getUserTargets = query({
   args: {
     userId: v.id("users"),
-    date: v.number(),
   },
   handler: async (ctx, args) => {
     return await ctx.db

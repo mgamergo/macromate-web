@@ -7,8 +7,9 @@ import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useAuth } from "@clerk/nextjs";
 import { UserSyncProvider } from "@/src/components/auth/UserSyncProvider";
-import { SetZustandState } from "../common/SetZustandState";
-import CheckOnboardingStatus from "../common/providers/CheckOnboardingStatus";
+import { SetZustandState } from "../SetZustandState";
+import CheckOnboardingStatus from "./CheckOnboardingStatus";
+import { Toaster } from "sonner";
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -21,6 +22,12 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
             <SetZustandState />
             <CheckOnboardingStatus />
             {children}
+            <Toaster 
+              position="top-right" 
+              richColors 
+              closeButton 
+              theme="system"
+            />
           </UserSyncProvider>
         </ThemeProvider>
       </ConvexProviderWithClerk>
