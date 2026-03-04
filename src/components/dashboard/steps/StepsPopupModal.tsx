@@ -1,15 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/src/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/src/components/ui/dialog";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Calendar } from "@/src/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/src/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon, Footprints } from "lucide-react";
 import { cn } from "@/src/lib/utils";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import useZustand from "@/src/hooks/use-zustand";
 
 interface StepsPopupModalProps {
   children?: React.ReactNode;
@@ -18,26 +32,47 @@ interface StepsPopupModalProps {
 export function StepsPopupModal({ children }: StepsPopupModalProps) {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [steps, setSteps] = useState("");
+  const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
-    if (!date || !steps) return;
-    
-    // TODO: Submit to database
-    console.log("Submitting steps:", { 
-      date: date.toISOString(), 
-      steps: parseInt(steps) 
-    });
-    
-    setIsOpen(false);
-    setSteps("");
+  const { convexUserId } = useZustand();
+  const addSteps = useMutation(api.steps.addSteps);
+
+  const handleSubmit = async () => {
+    if (!date || !steps) {
+      setError("Please fill in all fields");
+      return;
+    }
+    const stepCount = parseInt(steps);
+    if (isNaN(stepCount) || stepCount <= 0) {
+      setError("Please enter a valid step count");
+      return;
+    }
+    if (!convexUserId) return;
+
+    setIsSubmitting(true);
+    try {
+      await addSteps({
+        userId: convexUserId,
+        steps: stepCount,
+      });
+      setIsOpen(false);
+      setSteps("");
+      setError("");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {children || (
-          <Button variant="outline" className="gap-2 border-teal/20 hover:border-teal hover:bg-teal/5 text-teal">
+          <Button
+            variant="outline"
+            className="gap-2 border-teal/20 hover:border-teal hover:bg-teal/5 text-teal"
+          >
             <Footprints className="h-4 w-4" />
             Log Steps
           </Button>
@@ -52,7 +87,9 @@ export function StepsPopupModal({ children }: StepsPopupModalProps) {
         </DialogHeader>
         <div className="grid gap-6 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="date" className="text-foreground/80">Date</Label>
+            <Label htmlFor="date" className="text-foreground/80">
+              Date
+            </Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -78,24 +115,32 @@ export function StepsPopupModal({ children }: StepsPopupModalProps) {
             </Popover>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="steps" className="text-foreground/80">Step Count</Label>
+            <Label htmlFor="steps" className="text-foreground/80">
+              Step Count
+            </Label>
             <Input
               id="steps"
               type="number"
               placeholder="e.g. 10000"
               value={steps}
-              onChange={(e) => setSteps(e.target.value)}
+              onChange={(e) => {
+                setSteps(e.target.value);
+                setError("");
+              }}
               className="focus-visible:ring-teal border-input hover:border-teal/50 transition-colors"
+              min="1"
             />
+            {error && <p className="text-sm text-red-500">{error}</p>}
           </div>
         </div>
         <DialogFooter>
-          <Button 
-            type="submit" 
-            onClick={handleSubmit} 
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
             className="w-full bg-teal hover:bg-teal/90 text-teal-foreground font-semibold shadow-md shadow-teal/20"
           >
-            Save Steps
+            {isSubmitting ? "Saving..." : "Save Steps"}
           </Button>
         </DialogFooter>
       </DialogContent>

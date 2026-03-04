@@ -1,15 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Plus, Dumbbell, GlassWater, FootprintsIcon } from "lucide-react";
 import { StepsModal } from "@/src/components/dashboard/steps/StepsModal";
-import { MealModal, type MealFormData } from "@/src/components/dashboard/meals/MealModal";
+import { MealModal } from "@/src/components/dashboard/meals/MealModal";
+import { WorkoutModal } from "@/src/components/dashboard/workout/WorkoutModal";
+import { WaterModal } from "@/src/components/dashboard/water/WaterModal";
 
 export function QuickActions() {
   const [mealModalOpen, setMealModalOpen] = useState(false);
   const [stepsModalOpen, setStepsModalOpen] = useState(false);
+  const [workoutModalOpen, setWorkoutModalOpen] = useState(false);
+  const [waterModalOpen, setWaterModalOpen] = useState(false);
 
   return (
     <>
@@ -18,25 +27,33 @@ export function QuickActions() {
           <CardTitle className="text-teal font-bold">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
-          <Button 
+          <Button
             onClick={() => setMealModalOpen(true)}
-            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" 
+            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer"
             variant="outline"
           >
             <Plus className="h-6 w-6" />
             <span>Log Meal</span>
           </Button>
-          <Button className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" variant="outline">
+          <Button
+            onClick={() => setWorkoutModalOpen(true)}
+            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer"
+            variant="outline"
+          >
             <Dumbbell className="h-6 w-6" />
             <span>Log Workout</span>
           </Button>
-          <Button className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" variant="outline">
+          <Button
+            onClick={() => setWaterModalOpen(true)}
+            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer"
+            variant="outline"
+          >
             <GlassWater className="h-6 w-6" />
             <span>Log Water</span>
           </Button>
-          <Button 
+          <Button
             onClick={() => setStepsModalOpen(true)}
-            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer" 
+            className="h-24 flex flex-col gap-2 bg-teal/10 hover:bg-teal/20 text-teal border-2 border-teal/20 hover:border-teal transition-all cursor-pointer"
             variant="outline"
           >
             <FootprintsIcon className="h-6 w-6" />
@@ -52,6 +69,14 @@ export function QuickActions() {
       <StepsModal
         isOpen={stepsModalOpen}
         onClose={() => setStepsModalOpen(false)}
+      />
+      <WorkoutModal
+        isOpen={workoutModalOpen}
+        onClose={() => setWorkoutModalOpen(false)}
+      />
+      <WaterModal
+        isOpen={waterModalOpen}
+        onClose={() => setWaterModalOpen(false)}
       />
     </>
   );

@@ -37,8 +37,7 @@ export default defineSchema({
     ),
 
     createdAt: v.number(),
-  })
-    .index("by_user", ["userId"]),
+  }).index("by_user", ["userId"]),
 
   user_targets: defineTable({
     userId: v.id("users"),
@@ -54,8 +53,7 @@ export default defineSchema({
     dailyWaterIntake: v.number(),
 
     createdAt: v.number(),
-  })
-    .index("by_user", ["userId"]),
+  }).index("by_user", ["userId"]),
 
   meals: defineTable({
     userId: v.id("users"),
@@ -78,6 +76,47 @@ export default defineSchema({
     userId: v.id("users"),
     stepCount: v.number(),
 
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_createdAt", ["userId", "createdAt"]),
+
+  workouts: defineTable({
+    userId: v.id("users"),
+    name: v.string(),
+    exercises: v.array(
+      v.object({
+        name: v.string(),
+        sets: v.number(),
+        reps: v.string(),
+        weight: v.string(),
+      }),
+    ),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_createdAt", ["userId", "createdAt"]),
+
+  supplements: defineTable({
+    userId: v.id("users"),
+    name: v.string(),
+    dosage: v.string(),
+    taken: v.boolean(),
+    stock: v.number(),
+    createdAt: v.number(),
+  }).index("by_user", ["userId"]),
+
+  weight_logs: defineTable({
+    userId: v.id("users"),
+    weight: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_createdAt", ["userId", "createdAt"]),
+
+  water_logs: defineTable({
+    userId: v.id("users"),
+    amount: v.number(),
     createdAt: v.number(),
   })
     .index("by_user", ["userId"])
