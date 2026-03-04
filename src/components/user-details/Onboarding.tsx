@@ -35,7 +35,8 @@ import {
   DialogTrigger,
 } from "@/src/components/ui/dialog";
 import { Loader2, Zap, Flame, Droplets, Activity, Ruler, Weight, Calendar, Users, Percent, Target, Zap as ZapIcon, Info } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface OnboardingFormData {
   // User Details
@@ -67,6 +68,13 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const [currentTab, setCurrentTab] = useState("personal");
   const [showActivityInfo, setShowActivityInfo] = useState(false);
   const { convexUserId } = useZustand();
+  const router = useRouter();
+
+  // Query MUST be called unconditionally before any early returns (Rules of Hooks)
+  const isOnboarded = useQuery(
+    api.users.isUserOnboarded,
+    convexUserId ? { userId: convexUserId } : "skip"
+  );
 
   const form = useForm<OnboardingFormData>({
     defaultValues: {
@@ -91,10 +99,29 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const createUserDetails = useMutation(api.stats.logOrUpdateUserStats);
   const createUserTargets = useMutation(api.stats.logOrUpdateTargets);
   const updateOnboardingStatus = useMutation(api.users.markUserOnboarded);
-  const isOnboarded = useQuery(api.users.isUserOnboarded, convexUserId ? { userId: convexUserId } : "skip");
+  const weight = form.watch("weight");
+  const age = form.watch("age");
+  const gender = form.watch("gender");
+  const activityLevel = form.watch("activityLevel");
+  const goal = form.watch("goal");
 
-  if (isOnboarded) {
-    redirect('/');
+  // All hooks must be above any early returns
+  useEffect(() => {
+    if (isOnboarded) {
+      router.push("/");
+    }
+  }, [isOnboarded, router]);
+
+  // Show loading/redirect state while query is pending or user is already onboarded
+  if (isOnboarded === undefined || isOnboarded === true) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <Loader2 className="h-12 w-12 animate-spin text-teal" />
+        <p className="text-muted-foreground animate-pulse font-medium">
+          {isOnboarded ? "Redirecting to dashboard..." : "Loading your profile..."}
+        </p>
+      </div>
+    );
   }
 
   const onSubmit = async (data: OnboardingFormData) => {
@@ -166,12 +193,6 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
     return Math.round(tdee);
   };
-
-  const weight = form.watch("weight");
-  const age = form.watch("age");
-  const gender = form.watch("gender");
-  const activityLevel = form.watch("activityLevel");
-  const goal = form.watch("goal");
 
   const calculatedCalories = calculateCalories(weight, age, gender, activityLevel, goal);
 
