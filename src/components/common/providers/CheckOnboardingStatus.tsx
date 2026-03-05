@@ -5,10 +5,12 @@ import useZustand from "@/src/hooks/use-zustand";
 import { useQuery } from "convex/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 
 const CheckOnboardingStatus = () => {
   const { convexUserId } = useZustand();
+  const { isLoaded: isClerkLoaded, userId: clerkUserId } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,8 +33,18 @@ const CheckOnboardingStatus = () => {
     return null;
   }
 
-  // On any other page: show a full-screen spinner while the query is loading
-  // or while the redirect to onboarding is about to fire
+  // Clerk hasn't finished initializing yet — don't show anything
+  if (!isClerkLoaded) {
+    return null;
+  }
+
+  // Clerk is loaded but there's no logged-in user — nothing to check
+  if (!clerkUserId) {
+    return null;
+  }
+
+  // Clerk is loaded and user is signed in, but Convex query is still pending
+  // or a redirect to onboarding is about to fire — show spinner
   if (isOnboarded === undefined || isOnboarded === false) {
     return (
       <div
