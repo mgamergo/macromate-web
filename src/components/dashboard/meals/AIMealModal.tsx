@@ -101,6 +101,9 @@ export function AIMealModal({ isOpen, onClose }: AIMealModalProps) {
             </div>
             AI Macro Calculator
           </DialogTitle>
+          <p className="text-sm text-muted-foreground">
+            Type what you ate with quantities and AI will calculate the macros for you.
+          </p>
         </DialogHeader>
 
         <div className="grid gap-4 py-4">

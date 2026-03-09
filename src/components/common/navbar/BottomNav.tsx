@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   BarChart3,
-  User,
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
@@ -14,9 +13,8 @@ import { AIMealModal } from "@/src/components/dashboard/meals/AIMealModal";
 
 const navItems = [
   { href: "/", icon: LayoutDashboard, label: "Home" },
-  { href: "/stats", icon: BarChart3, label: "Stats" },
   { href: "__ai__", icon: Sparkles, label: "AI Meal", isSpecial: true },
-  { href: "/profile", icon: User, label: "Profile" },
+  { href: "/stats", icon: BarChart3, label: "Stats" },
 ];
 
 export function BottomNav() {
