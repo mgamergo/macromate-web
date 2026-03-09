@@ -35,3 +35,22 @@ export const getTodayWater = query({
     return entries.reduce((sum, entry) => sum + entry.amount, 0);
   },
 });
+
+export const getWaterLogsByDay = query({
+  args: {
+    userId: v.id("users"),
+    from: v.number(),
+    to: v.number(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("water_logs")
+      .withIndex("by_user_createdAt", (q) =>
+        q
+          .eq("userId", args.userId)
+          .gte("createdAt", args.from)
+          .lte("createdAt", args.to),
+      )
+      .collect();
+  },
+});

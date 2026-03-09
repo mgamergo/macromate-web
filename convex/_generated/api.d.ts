@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as macroJobs from "../macroJobs.js";
 import type * as meals from "../meals.js";
 import type * as stats from "../stats.js";
 import type * as steps from "../steps.js";
@@ -24,6 +25,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  macroJobs: typeof macroJobs;
   meals: typeof meals;
   stats: typeof stats;
   steps: typeof steps;

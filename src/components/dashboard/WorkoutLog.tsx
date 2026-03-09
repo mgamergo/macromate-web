@@ -33,10 +33,10 @@ export function WorkoutLog() {
 
   return (
     <>
-      <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
+      <Card className="h-fit border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-teal font-bold">Today's Workout</CardTitle>
-          <Dumbbell className="h-4 w-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-semibold">Today&apos;s Workout</CardTitle>
+          <Dumbbell className="h-4 w-4 text-blue-500" />
         </CardHeader>
         <CardContent>
           {!todaysWorkout ? (
@@ -77,7 +77,7 @@ export function WorkoutLog() {
                         {exercise.sets} sets x {exercise.reps} reps
                       </p>
                     </div>
-                    <div className="text-sm font-bold text-teal">
+                    <div className="text-sm font-bold text-blue-500">
                       {exercise.weight}
                     </div>
                   </div>

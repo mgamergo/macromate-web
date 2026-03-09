@@ -1,7 +1,7 @@
 "use client";
 
 import { ClerkProvider } from "@clerk/nextjs";
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "@/src/contexts/ThemeContext";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
@@ -13,6 +13,17 @@ import { Toaster } from "sonner";
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
+function ServiceWorkerRegistration() {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {
+        // Service worker registration failed, non-critical
+      });
+    }
+  }, []);
+  return null;
+}
+
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <ClerkProvider>
@@ -21,6 +32,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           <UserSyncProvider>
             <SetZustandState />
             <CheckOnboardingStatus />
+            <ServiceWorkerRegistration />
             {children}
             <Toaster 
               position="top-right" 

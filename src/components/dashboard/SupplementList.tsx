@@ -39,9 +39,9 @@ export function SupplementList() {
 
   return (
     <>
-      <Card className="border-teal/20 shadow-lg shadow-teal/5">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-teal font-bold">Supplements</CardTitle>
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="text-sm font-semibold">Supplements</CardTitle>
           <Button
             variant="outline"
             size="icon"

@@ -173,9 +173,9 @@ export function UserTargetsForm() {
   }
 
   return (
-    <Card className="border-teal/20 shadow-lg shadow-teal/5">
+    <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
       <CardHeader>
-        <CardTitle className="text-teal font-bold">Health & Fitness Profile</CardTitle>
+        <CardTitle className="text-sm font-semibold">Health & Fitness Profile</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -200,7 +200,7 @@ export function UserTargetsForm() {
                         {...field}
                         value={field.value || ""}
                         onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                        className="border-teal/20 focus:border-teal"
+                        className="border-border/50 focus:border-teal/50 transition-colors"
                       />
                     </FormControl>
                     <FormDescription>Your current body fat percentage</FormDescription>
@@ -216,7 +216,7 @@ export function UserTargetsForm() {
                     <FormLabel>Fitness Goal</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger className="border-teal/20 focus:border-teal">
+                        <SelectTrigger className="border-border/50 focus:border-teal/50 transition-colors">
                           <SelectValue placeholder="Select a goal" />
                         </SelectTrigger>
                       </FormControl>
@@ -241,7 +241,7 @@ export function UserTargetsForm() {
                     <FormLabel>Activity Level</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger className="border-teal/20 focus:border-teal">
+                        <SelectTrigger className="border-border/50 focus:border-teal/50 transition-colors">
                           <SelectValue placeholder="Select activity level" />
                         </SelectTrigger>
                       </FormControl>
@@ -260,7 +260,7 @@ export function UserTargetsForm() {
             </div>
 
             {/* Separator */}
-            <Separator className="bg-teal/20" />
+            <Separator className="bg-border/50" />
 
             {/* Section 2: Daily Targets */}
             <div className="space-y-4">
@@ -282,7 +282,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -304,7 +304,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -326,7 +326,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -348,7 +348,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -370,7 +370,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -392,7 +392,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -414,7 +414,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -436,7 +436,7 @@ export function UserTargetsForm() {
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                          className="border-teal/20 focus:border-teal"
+                          className="border-border/50 focus:border-teal/50 transition-colors"
                         />
                       </FormControl>
                     </FormItem>
@@ -449,7 +449,7 @@ export function UserTargetsForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-teal hover:bg-teal/90 text-white font-semibold"
+              className="w-full bg-teal hover:bg-teal/90 text-white font-semibold shadow-lg shadow-teal/20 transition-all hover:shadow-xl hover:shadow-teal/30"
             >
               {isSubmitting ? (
                 <>

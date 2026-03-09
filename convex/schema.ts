@@ -121,4 +121,29 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_createdAt", ["userId", "createdAt"]),
+
+  macro_jobs: defineTable({
+    userId: v.id("users"),
+    input: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("processing"),
+      v.literal("done"),
+      v.literal("error"),
+    ),
+    result: v.optional(
+      v.object({
+        name: v.optional(v.string()),
+        calories: v.number(),
+        protein_g: v.number(),
+        fat_g: v.number(),
+        carbs_g: v.number(),
+        fiber_g: v.number(),
+      }),
+    ),
+    error: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_user_status", ["userId", "status"]),
 });

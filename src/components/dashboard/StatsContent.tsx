@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import useZustand from "@/src/hooks/use-zustand";
@@ -9,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
 import {
   BarChart,
   Bar,
@@ -21,26 +24,101 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { subDays, format, startOfDay, endOfDay } from "date-fns";
-import { Footprints, Flame, Scale, Dumbbell } from "lucide-react";
+import {
+  subDays,
+  subMonths,
+  format,
+  startOfDay,
+  endOfDay,
+  eachDayOfInterval,
+  differenceInDays,
+} from "date-fns";
+import { Footprints, Flame, Scale, Dumbbell, Calendar } from "lucide-react";
 
-function buildLast7Days() {
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = subDays(new Date(), 6 - i);
-    return {
-      label: format(d, "EEE"),
-      from: startOfDay(d).getTime(),
-      to: endOfDay(d).getTime(),
-    };
-  });
+type TimeRange = "week" | "month" | "custom";
+
+function buildDayBuckets(startDate: Date, endDate: Date) {
+  const allDays = eachDayOfInterval({ start: startDate, end: endDate });
+  const totalDays = allDays.length;
+
+  // For ranges > 31 days, bucket into weeks to keep charts readable
+  if (totalDays > 31) {
+    const bucketSize = Math.ceil(totalDays / 15); // ~15 bars max
+    const buckets: { label: string; from: number; to: number }[] = [];
+    for (let i = 0; i < allDays.length; i += bucketSize) {
+      const slice = allDays.slice(i, i + bucketSize);
+      const first = slice[0];
+      const last = slice[slice.length - 1];
+      buckets.push({
+        label:
+          slice.length > 1
+            ? `${format(first, "MMM d")}-${format(last, "d")}`
+            : format(first, "MMM d"),
+        from: startOfDay(first).getTime(),
+        to: endOfDay(last).getTime(),
+      });
+    }
+    return buckets;
+  }
+
+  // For ranges ≤ 7 days, use day names; otherwise use "MMM d"
+  return allDays.map((d) => ({
+    label: totalDays <= 7 ? format(d, "EEE") : format(d, "MMM d"),
+    from: startOfDay(d).getTime(),
+    to: endOfDay(d).getTime(),
+  }));
 }
 
 export function StatsContent() {
   const { convexUserId } = useZustand();
+  const [timeRange, setTimeRange] = useState<TimeRange>("week");
+  const [customFrom, setCustomFrom] = useState(() =>
+    format(subDays(new Date(), 13), "yyyy-MM-dd"),
+  );
+  const [customTo, setCustomTo] = useState(() =>
+    format(new Date(), "yyyy-MM-dd"),
+  );
 
-  const days = buildLast7Days();
-  const from = days[0].from;
-  const to = days[6].to;
+  const { days, from, to, numDays, rangeLabel } = useMemo(() => {
+    let startDate: Date;
+    let endDate: Date;
+    let label: string;
+
+    switch (timeRange) {
+      case "week":
+        startDate = subDays(new Date(), 6);
+        endDate = new Date();
+        label = "7-Day";
+        break;
+      case "month":
+        startDate = subMonths(new Date(), 1);
+        endDate = new Date();
+        label = "30-Day";
+        break;
+      case "custom": {
+        startDate = new Date(customFrom);
+        endDate = new Date(customTo);
+        // Clamp: don't allow future or inverted ranges
+        if (endDate < startDate) {
+          const tmp = startDate;
+          startDate = endDate;
+          endDate = tmp;
+        }
+        const diff = differenceInDays(endDate, startDate) + 1;
+        label = `${diff}-Day`;
+        break;
+      }
+    }
+
+    const buckets = buildDayBuckets(startDate, endDate);
+    return {
+      days: buckets,
+      from: startOfDay(startDate).getTime(),
+      to: endOfDay(endDate).getTime(),
+      numDays: differenceInDays(endDate, startDate) + 1,
+      rangeLabel: label,
+    };
+  }, [timeRange, customFrom, customTo]);
 
   const meals = useQuery(
     api.meals.getMealsByDates,
@@ -102,13 +180,12 @@ export function StatsContent() {
 
   const goalCalories = userTargets?.dailyCaloriesIntake ?? 2500;
   const goalSteps = userTargets?.dailyStepCount ?? 10000;
-  const goalProtein = userTargets?.dailyProtein ?? 150;
 
   // Stat cards
   const totalCalories = chartData.reduce((s, d) => s + d.calories, 0);
-  const avgCalories = Math.round(totalCalories / 7);
-  const totalSteps7d = chartData.reduce((s, d) => s + d.steps, 0);
-  const avgSteps = Math.round(totalSteps7d / 7);
+  const avgCalories = Math.round(totalCalories / numDays);
+  const totalStepsAll = chartData.reduce((s, d) => s + d.steps, 0);
+  const avgSteps = Math.round(totalStepsAll / numDays);
   const totalWorkouts = chartData.reduce((s, d) => s + d.workouts, 0);
   const latestWeight = [...weightLogs].reverse().find((w) => w.weight)?.weight;
 
@@ -137,7 +214,7 @@ export function StatsContent() {
     {
       label: "Workouts",
       value: totalWorkouts.toString(),
-      sub: "Past 7 days",
+      sub: `Past ${numDays} days`,
       Icon: Dumbbell,
       color: "text-blue-400",
     },
@@ -153,10 +230,60 @@ export function StatsContent() {
 
   return (
     <div className="space-y-6">
+      {/* Timeline Selector */}
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+        <CardContent className="pt-4 pb-4">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-teal" />
+              <span className="text-sm font-semibold">Time Range</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(["week", "month", "custom"] as const).map((range) => (
+                <Button
+                  key={range}
+                  variant={timeRange === range ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setTimeRange(range)}
+                  className={
+                    timeRange === range
+                      ? "bg-teal hover:bg-teal/90 text-white"
+                      : "border-border/50 hover:border-teal/40"
+                  }
+                >
+                  {range === "week"
+                    ? "Week"
+                    : range === "month"
+                      ? "Month"
+                      : "Custom"}
+                </Button>
+              ))}
+            </div>
+            {timeRange === "custom" && (
+              <div className="flex flex-wrap items-center gap-2">
+                <Input
+                  type="date"
+                  value={customFrom}
+                  onChange={(e) => setCustomFrom(e.target.value)}
+                  className="w-auto border-border/50 focus:border-teal/50 text-sm"
+                />
+                <span className="text-xs text-muted-foreground">to</span>
+                <Input
+                  type="date"
+                  value={customTo}
+                  onChange={(e) => setCustomTo(e.target.value)}
+                  className="w-auto border-border/50 focus:border-teal/50 text-sm"
+                />
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Stat Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {statCards.map(({ label, value, sub, Icon, color }) => (
-          <Card key={label} className="border-teal/20 shadow-lg shadow-teal/5">
+          <Card key={label} className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
             <CardContent className="pt-4 pb-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-muted-foreground">{label}</span>
@@ -170,10 +297,10 @@ export function StatsContent() {
       </div>
 
       {/* Calorie Chart */}
-      <Card className="border-teal/20 shadow-lg shadow-teal/5">
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
         <CardHeader>
-          <CardTitle className="text-teal font-bold">
-            7-Day Calorie Intake
+          <CardTitle className="text-sm font-semibold">
+            {rangeLabel} Calorie Intake
           </CardTitle>
         </CardHeader>
         <CardContent className="h-[260px]">
@@ -217,10 +344,10 @@ export function StatsContent() {
       </Card>
 
       {/* Macros Chart */}
-      <Card className="border-teal/20 shadow-lg shadow-teal/5">
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
         <CardHeader>
-          <CardTitle className="text-teal font-bold">
-            7-Day Macro Breakdown
+          <CardTitle className="text-sm font-semibold">
+            {rangeLabel} Macro Breakdown
           </CardTitle>
         </CardHeader>
         <CardContent className="h-[260px]">
@@ -279,9 +406,9 @@ export function StatsContent() {
       </Card>
 
       {/* Steps Chart */}
-      <Card className="border-teal/20 shadow-lg shadow-teal/5">
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
         <CardHeader>
-          <CardTitle className="text-teal font-bold">7-Day Step Count</CardTitle>
+          <CardTitle className="text-sm font-semibold">{rangeLabel} Step Count</CardTitle>
         </CardHeader>
         <CardContent className="h-[260px]">
           <ResponsiveContainer width="100%" height="100%">
@@ -325,10 +452,10 @@ export function StatsContent() {
 
       {/* Weight Trend */}
       {weightLogs.length > 0 && (
-        <Card className="border-teal/20 shadow-lg shadow-teal/5">
+        <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
           <CardHeader>
-            <CardTitle className="text-teal font-bold">
-              Weight Trend (7 Days)
+            <CardTitle className="text-sm font-semibold">
+              Weight Trend ({rangeLabel})
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[260px]">

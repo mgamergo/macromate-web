@@ -7,11 +7,13 @@ const StatsPage = async () => {
   if (!userId) redirect("/");
 
   return (
-    <div className="container mx-auto p-4 space-y-6 pb-20">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-teal">Stats</h1>
-        <p className="text-muted-foreground">
-          Your 7-day health & fitness overview
+    <div className="container mx-auto px-4 py-6 space-y-6 max-w-7xl pb-20 md:pb-6">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          Your <span className="text-teal">Stats</span>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Track your health &amp; fitness over time
         </p>
       </div>
       <StatsContent />

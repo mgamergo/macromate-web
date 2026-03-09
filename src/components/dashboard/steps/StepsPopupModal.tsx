@@ -78,9 +78,9 @@ export function StepsPopupModal({ children }: StepsPopupModalProps) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] border-teal/20 shadow-lg shadow-teal/5 bg-card">
+      <DialogContent className="sm:max-w-[425px] border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
         <DialogHeader>
-          <DialogTitle className="text-teal flex items-center gap-2 text-xl">
+          <DialogTitle className="text-sm font-semibold flex items-center gap-2">
             <Footprints className="h-6 w-6" />
             Log Steps
           </DialogTitle>

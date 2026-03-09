@@ -5,31 +5,38 @@ import { SupplementList } from "@/src/components/dashboard/SupplementList";
 import { MealList } from "@/src/components/dashboard/MealList";
 import { WorkoutLog } from "@/src/components/dashboard/WorkoutLog";
 import { StepCount } from "@/src/components/dashboard/StepCount";
+import { WaterProgress } from "@/src/components/dashboard/water/WaterProgress";
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
   const user = await currentUser();
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+
   return (
-    <div className="container mx-auto p-4 space-y-6 pb-20">
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-teal">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back <span className="font-bold text-primary underline">{user?.firstName}!</span>
+    <div className="container mx-auto px-4 py-6 space-y-6 max-w-7xl">
+      {/* Header */}
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          {greeting}, <span className="text-teal">{user?.firstName}</span>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Here&apos;s your daily health overview
         </p>
       </div>
 
-      {/* Mobile Layout (Single Column) - Hidden on larger screens if needed, but Grid handles responsiveness well */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {/* Dashboard Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
         
-        {/* Left Column (Quick Actions & Steps) */}
-        <div className="md:col-span-3 space-y-6">
+        {/* Left Column */}
+        <div className="md:col-span-3 space-y-5 order-1">
           <QuickActions />
           <StepCount />
+          <WaterProgress />
         </div>
 
-        {/* Center Column (Feed: Weight, Meals, Workout) */}
-        <div className="md:col-span-6 space-y-6">
+        {/* Center Column */}
+        <div className="md:col-span-6 space-y-5 order-3 md:order-2">
           <MealList />
           <WorkoutLog />
           <div className="h-[350px]">
@@ -37,8 +44,8 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Right Column (Stats: Macros & Supplements) */}
-        <div className="md:col-span-3 space-y-6">
+        {/* Right Column */}
+        <div className="md:col-span-3 space-y-5 order-2 md:order-3">
           <div className="h-fit">
             <MacroChart />
           </div>

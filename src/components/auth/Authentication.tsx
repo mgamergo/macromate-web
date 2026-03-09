@@ -27,9 +27,16 @@ export const Authentication = () => {
   };
 
   return (
-    <div className="min-h-full flex flex-col items-center justify-center p-4 bg-linear-to-br from-background to-muted/20">
-      <Card className="w-full max-w-md shadow-2xl border-2">
-        <CardContent className="space-y-4">
+    <div className="min-h-full flex flex-col items-center justify-center p-4 pb-safe bg-linear-to-br from-background to-muted/20">
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold bg-linear-to-r from-teal to-teal/60 bg-clip-text text-transparent mb-2">
+          MacroMate
+        </h1>
+        <p className="text-sm text-muted-foreground">Track your nutrition, reach your goals</p>
+      </div>
+      <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+        <CardContent className="space-y-4 p-6">
+          <p className="text-center text-sm font-medium text-muted-foreground mb-2">Sign in to continue</p>
           <div className="space-y-3">
             <Button
               variant="outline"

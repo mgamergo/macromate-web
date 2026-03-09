@@ -197,14 +197,14 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const calculatedCalories = calculateCalories(weight, age, gender, activityLevel, goal);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-background via-background to-teal/5 py-8 px-4">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-teal/5 py-6 px-4 pb-20 md:pb-8">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-block mb-4 px-4 py-2 bg-teal/10 border border-teal/30 rounded-full">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-block mb-3 sm:mb-4 px-4 py-2 bg-teal/10 border border-teal/20 rounded-full">
             <span className="text-sm font-semibold text-teal">✨ Setup Your Profile</span>
           </div>
-          <h1 className="text-4xl font-bold bg-linear-to-r from-teal via-teal to-teal/60 bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-linear-to-r from-teal via-teal to-teal/60 bg-clip-text text-transparent mb-2">
             Welcome to MacroMate
           </h1>
           <p className="text-muted-foreground text-lg">
@@ -213,19 +213,19 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         </div>
 
         {/* Main Card */}
-        <Card className="border-teal/30 shadow-xl shadow-teal/15 overflow-hidden">
-          <CardHeader className="bg-linear-to-r from-teal/10 via-teal/5 to-transparent py-6 m-3 rounded-md border-b border-teal/20">
-            <CardTitle className="text-teal text-2xl">Complete Your Profile</CardTitle>
+        <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20 overflow-hidden">
+          <CardHeader className="bg-linear-to-r from-teal/10 via-teal/5 to-transparent py-5 sm:py-6 mx-3 sm:m-3 rounded-md border-b border-border/50">
+            <CardTitle className="text-lg sm:text-2xl font-semibold">Complete Your Profile</CardTitle>
             <CardDescription className="text-base">
               Provide your personal information and daily targets to personalize your experience
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <Tabs value={currentTab} onValueChange={setCurrentTab}>
-                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-teal/5 border border-teal/20">
+                  <TabsList className="grid w-full grid-cols-2 mb-4 sm:mb-6 bg-card/60 border border-border/50">
                     <TabsTrigger value="personal" className="data-[state=active]:bg-teal data-[state=active]:text-white">
                       👤 Personal Info
                     </TabsTrigger>
@@ -236,7 +236,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
                   {/* Personal Information Tab */}
                   <TabsContent value="personal" className="space-y-6 pt-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                       {/* Height */}
                       <FormField
                         control={form.control}
@@ -247,7 +247,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 250, message: "Height must be less than 250 cm" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Ruler className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Height (cm)</FormLabel>
@@ -258,7 +258,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="170"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Your height in centimeters</FormDescription>
@@ -277,7 +277,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 300, message: "Weight must be less than 300 kg" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Weight className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Weight (kg)</FormLabel>
@@ -288,7 +288,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="70"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Your current weight in kilograms</FormDescription>
@@ -307,7 +307,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 120, message: "Age must be less than 120" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Calendar className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Age (years)</FormLabel>
@@ -318,7 +318,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="25"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Your age in years</FormDescription>
@@ -333,7 +333,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                         name="gender"
                         rules={{ required: "Gender is required" }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Users className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Gender</FormLabel>
@@ -365,7 +365,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 60, message: "Must be less than 60%" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Percent className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Body Fat (%)</FormLabel>
@@ -377,7 +377,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="20"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Your estimated body fat percentage</FormDescription>
@@ -392,7 +392,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                         name="activityLevel"
                         rules={{ required: "Activity level is required" }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Activity className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Activity Level</FormLabel>
@@ -468,7 +468,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                         name="goal"
                         rules={{ required: "Goal is required" }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Target className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Fitness Goal</FormLabel>
@@ -495,7 +495,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                   {/* Daily Targets Tab */}
                   <TabsContent value="targets" className="space-y-6 pt-4">
                     {/* Auto-calculated Calories Alert */}
-                    <div className="p-5 bg-linear-to-br from-teal/15 via-teal/10 to-teal/5 border border-teal/40 rounded-lg">
+                    <div className="p-4 sm:p-5 bg-linear-to-br from-teal/10 via-teal/5 to-transparent border border-border/50 rounded-lg backdrop-blur-sm">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-sm font-semibold text-teal mb-1">
@@ -510,7 +510,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                       {/* Daily Calories Intake */}
                       <FormField
                         control={form.control}
@@ -521,7 +521,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 5000, message: "Maximum 5000 calories" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Flame className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Calories (kcal)</FormLabel>
@@ -532,7 +532,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="2500"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Target daily calorie intake</FormDescription>
@@ -551,7 +551,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 500, message: "Maximum 500g" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Activity className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Protein (g)</FormLabel>
@@ -562,7 +562,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="150"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Target daily protein intake</FormDescription>
@@ -581,7 +581,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 500, message: "Maximum 500g" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Zap className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Carbs (g)</FormLabel>
@@ -592,7 +592,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="250"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Target daily carbohydrate intake</FormDescription>
@@ -611,7 +611,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 300, message: "Maximum 300g" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Droplets className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Fats (g)</FormLabel>
@@ -622,7 +622,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="85"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Target daily fat intake</FormDescription>
@@ -641,7 +641,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 100, message: "Maximum 100g" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Activity className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Fiber (g)</FormLabel>
@@ -652,7 +652,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="30"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Target daily fiber intake</FormDescription>
@@ -671,7 +671,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 5000, message: "Maximum 5000 kcal" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <ZapIcon className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Calories Burn (kcal)</FormLabel>
@@ -682,7 +682,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="2200"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Estimated daily energy expenditure</FormDescription>
@@ -701,7 +701,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 100000, message: "Maximum 100000 steps" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Activity className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Steps Target</FormLabel>
@@ -712,7 +712,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="10000"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Daily step goal</FormDescription>
@@ -731,7 +731,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                           max: { value: 10000, message: "Maximum 10000 ml" },
                         }}
                         render={({ field }) => (
-                          <FormItem className="bg-teal/5 p-4 rounded-lg border border-teal/10 transition-all hover:border-teal/20">
+                          <FormItem className="bg-card/60 p-4 rounded-lg border border-border/50 transition-all hover:border-teal/20 backdrop-blur-sm">
                             <div className="flex items-center gap-2 mb-2">
                               <Droplets className="w-4 h-4 text-teal" />
                               <FormLabel className="text-sm font-semibold text-foreground">Daily Water (ml)</FormLabel>
@@ -742,7 +742,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                 placeholder="2000"
                                 {...field}
                                 onChange={(e) => field.onChange(Number(e.target.value))}
-                                className="transition-all focus:shadow-md bg-background/50 border-teal/20 focus:border-teal/50"
+                                className="transition-all focus:shadow-md bg-background/50 border-border/50 focus:border-teal/50"
                               />
                             </FormControl>
                             <FormDescription className="text-xs">Daily water intake goal</FormDescription>
@@ -755,7 +755,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                 </Tabs>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3 pt-6 border-t border-teal/20">
+                <div className="flex gap-3 pt-4 sm:pt-6 border-t border-border/50">
                   {currentTab === "targets" && (
                     <Button
                       type="button"
@@ -798,18 +798,18 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         </Card>
 
         {/* Footer */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-6 sm:mt-8">
           <p className="text-sm text-muted-foreground">
             ✓ You can update these settings anytime in your profile
           </p>
-          <div className="flex justify-center gap-3 mt-4">
-            <div className="text-center px-3 py-1 bg-teal/5 border border-teal/20 rounded-full">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-4">
+            <div className="text-center px-3 py-1 bg-card/60 border border-border/50 rounded-full backdrop-blur-sm">
               <p className="text-xs font-medium text-teal">🎯 Personalized</p>
             </div>
-            <div className="text-center px-3 py-1 bg-teal/5 border border-teal/20 rounded-full">
+            <div className="text-center px-3 py-1 bg-card/60 border border-border/50 rounded-full backdrop-blur-sm">
               <p className="text-xs font-medium text-teal">📊 Data-driven</p>
             </div>
-            <div className="text-center px-3 py-1 bg-teal/5 border border-teal/20 rounded-full">
+            <div className="text-center px-3 py-1 bg-card/60 border border-border/50 rounded-full backdrop-blur-sm">
               <p className="text-xs font-medium text-teal">⚡ Smart</p>
             </div>
           </div>

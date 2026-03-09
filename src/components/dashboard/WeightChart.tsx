@@ -80,9 +80,9 @@ export function WeightChart() {
 
   return (
     <>
-      <Card className="h-full border-teal/20 shadow-lg shadow-teal/5">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-teal font-bold">Weight Trend</CardTitle>
+      <Card className="h-full border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+          <CardTitle className="text-sm font-semibold">Weight Trend</CardTitle>
           <Button
             variant="outline"
             size="sm"

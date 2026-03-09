@@ -75,9 +75,9 @@ export function MealList() {
   }
 
   return (
-    <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
-      <CardHeader>
-        <CardTitle className="text-teal font-bold">Today's Meals</CardTitle>
+    <Card className="h-fit border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-sm font-semibold">Today&apos;s Meals</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {meals.length === 0 ? (
@@ -99,9 +99,11 @@ export function MealList() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="font-bold text-teal">{meal.calories} kcal</p>
+                  <p className="font-bold text-foreground">{meal.calories} <span className="text-xs font-normal text-muted-foreground">kcal</span></p>
                   <p className="text-xs text-muted-foreground">
-                    P:{meal.protein} C:{meal.carbs} F:{meal.fats}
+                    <span className="text-orange-400">P:{meal.protein}</span>{" "}
+                    <span className="text-cyan-400">C:{meal.carbs}</span>{" "}
+                    <span className="text-rose-400">F:{meal.fats}</span>
                   </p>
                 </div>
                 <div className="flex gap-2">

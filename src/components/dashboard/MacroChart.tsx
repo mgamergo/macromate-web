@@ -59,9 +59,9 @@ export function MacroChart() {
   ];
 
   return (
-    <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5">
-      <CardHeader>
-        <CardTitle className="text-teal font-bold">Daily Macros</CardTitle>
+    <Card className="h-fit border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-semibold">Daily Macros</CardTitle>
       </CardHeader>
       <CardContent className="relative h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -92,16 +92,18 @@ export function MacroChart() {
           <span className="text-xs text-muted-foreground">/ {goalCalories} kcal</span>
         </div>
       </CardContent>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4 justify-around p-4 text-sm">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-3 p-4 text-sm">
         {macros.map((macro) => (
-          <div key={macro.name} className="flex flex-col items-center">
-            <span className="font-medium text-muted-foreground">{macro.name}</span>
-            <span className="font-bold text-foreground">
-              {macro.value}/{macro.goal}g
-            </span>
-            <div className="w-full h-1 bg-muted mt-1 rounded-full overflow-hidden">
+          <div key={macro.name} className="flex flex-col gap-1 p-2 rounded-lg bg-muted/30">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">{macro.name}</span>
+              <span className="text-xs font-bold">
+                {macro.value}<span className="text-muted-foreground font-normal">/{macro.goal}g</span>
+              </span>
+            </div>
+            <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
               <div
-                className="h-full rounded-full"
+                className="h-full rounded-full transition-all duration-700 ease-out"
                 style={{
                   width: `${Math.min(100, macro.goal > 0 ? (macro.value / macro.goal) * 100 : 0)}%`,
                   backgroundColor: macro.color,

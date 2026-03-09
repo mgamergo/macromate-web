@@ -12,17 +12,17 @@ export function UserInfoSection() {
   if (!user) return null;
 
   return (
-    <Card className="h-fit border-teal/20 shadow-lg shadow-teal/5 sticky top-4">
+    <Card className="h-fit border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20 sticky top-4">
       <CardContent className="pt-6">
         <div className="flex flex-col items-center gap-6">
           {/* User Avatar */}
-          <Avatar className="w-24 h-24 border-4 border-teal/30">
+          <Avatar className="w-24 h-24 border-4 border-teal/20 ring-4 ring-teal/10">
             <AvatarImage 
               src={user.imageUrl} 
               alt={user.firstName || "User"} 
               className="object-cover"
             />
-            <AvatarFallback className="text-2xl bg-teal/20">
+            <AvatarFallback className="text-2xl bg-teal/10 text-teal">
               {(user.firstName || "U").charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>

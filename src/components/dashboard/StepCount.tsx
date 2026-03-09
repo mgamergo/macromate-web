@@ -41,12 +41,12 @@ export function StepCount() {
 
   return (
     <StepsPopupModal>
-      <Card className="border-teal/20 shadow-lg shadow-teal/5 cursor-pointer hover:border-teal/50 transition-all group">
+      <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-black/20 cursor-pointer hover:border-teal/30 transition-all duration-200 group">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-teal font-bold group-hover:text-teal/80 transition-colors">
+          <CardTitle className="text-sm font-semibold group-hover:text-teal transition-colors duration-200">
             Steps
           </CardTitle>
-          <Footprints className="h-4 w-4 text-muted-foreground group-hover:text-teal transition-colors" />
+          <Footprints className="h-4 w-4 text-amber-500 group-hover:text-teal transition-colors duration-200" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
@@ -55,9 +55,9 @@ export function StepCount() {
           <p className="text-xs text-muted-foreground">
             / {goal.toLocaleString()} goal
           </p>
-          <div className="mt-4 h-2 w-full bg-muted rounded-full overflow-hidden">
+          <div className="mt-3 h-2 w-full bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-teal transition-all duration-500"
+              className="h-full rounded-full bg-linear-to-r from-amber-500 to-orange-500 transition-all duration-700 ease-out"
               style={{ width: `${percentage}%` }}
             />
           </div>
